@@ -1,5 +1,5 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { Reservation as ReservationEntity } from '@prisma/client';
 
 import { ReservationsService } from './reservations.service';
@@ -13,12 +13,15 @@ import { Roles } from '../auth/decorators/roles.decorator';
 
 @Resolver(() => ReservationModel)
 export class ReservationsResolver {
+  private readonly logger = new Logger(ReservationsResolver.name);
+
   constructor(private readonly reservationsService: ReservationsService) {}
 
   @Mutation(() => ReservationModel)
   createReservation(
     @Args('input') input: CreateReservationInput,
   ): Promise<ReservationEntity> {
+    this.logger.log(`Mutation createReservation: guest=${input.guestName}`);
     return this.reservationsService.create(input);
   }
 
@@ -27,6 +30,7 @@ export class ReservationsResolver {
     @Args({ name: 'id', type: () => ID }) id: string,
     @Args('input') input: UpdateReservationInput,
   ): Promise<ReservationEntity> {
+    this.logger.log(`Mutation updateReservation: id=${id}`);
     return this.reservationsService.update(id, input);
   }
 
@@ -34,6 +38,7 @@ export class ReservationsResolver {
   cancelReservation(
     @Args({ name: 'id', type: () => ID }) id: string,
   ): Promise<ReservationEntity> {
+    this.logger.log(`Mutation cancelReservation: id=${id}`);
     return this.reservationsService.cancel(id);
   }
 
@@ -45,6 +50,7 @@ export class ReservationsResolver {
     @Args('status', { type: () => ReservationStatus })
     status: ReservationStatus,
   ): Promise<ReservationEntity> {
+    this.logger.log(`Mutation updateReservationStatus: id=${id}, status=${status}`);
     return this.reservationsService.updateStatus(id, status);
   }
 
