@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(GUEST)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Reservation {
+  id                  String             @id @default(auto()) @map("_id") @db.ObjectId
+  guestName           String
+  phone               String
+  email               String
+  expectedArrivalTime DateTime
+  tableSize           Int
+  status              ReservationStatus  @default(REQUESTED)
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+}
+
+enum UserRole {
+  GUEST
+  EMPLOYEE
+}
+
+enum ReservationStatus {
+  REQUESTED
+  APPROVED
+  CANCELLED
+  COMPLETED
+}
+

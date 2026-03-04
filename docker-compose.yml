@@ -1,0 +1,33 @@
+services:
+  mongo:
+    container_name: mongofordemo
+    image: mongo:7
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+
+  # backend:
+  #   build:
+  #     context: ./backend
+  #   environment:
+  #     - DATABASE_URL=mongodb://mongo:27017/hilton?replicaSet=rs0
+  #     - JWT_SECRET=dev-secret
+  #     - PORT=3000
+  #   depends_on:
+  #     - mongo
+  #   ports:
+  #     - "3000:3000"
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - "4173:4173"
+
+volumes:
+  mongo-data:
