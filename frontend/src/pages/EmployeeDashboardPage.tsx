@@ -143,11 +143,11 @@ const EmployeeDashboardPage = () => {
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-3 items-end">
-        <div>
+      <div class="flex items-end gap-3">
+        <div class="shrink-0">
           <label class="block text-sm font-medium">Status</label>
           <select
-            class="mt-1 rounded border px-3 py-1.5 text-sm"
+            class="mt-1 w-auto rounded border px-3 py-1.5 text-sm"
             value={statusFilter()}
             onChange={(e) =>
               setStatusFilter(
@@ -162,11 +162,11 @@ const EmployeeDashboardPage = () => {
             <option value="COMPLETED">Completed</option>
           </select>
         </div>
-        <div>
+        <div class="shrink-0">
           <label class="block text-sm font-medium">Date</label>
           <input
             type="date"
-            class="mt-1 rounded border px-3 py-1.5 text-sm"
+            class="mt-1 w-auto rounded border px-3 py-1.5 text-sm"
             value={dateFilter()}
             onInput={(e) => setDateFilter(e.currentTarget.value)}
           />
@@ -174,7 +174,7 @@ const EmployeeDashboardPage = () => {
         <button
           type="button"
           disabled={reservations.loading}
-          class="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-indigo-700 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60"
+          class="btn-refresh"
           onClick={() => refetch()}
         >
           <Show when={reservations.loading}>
@@ -199,7 +199,7 @@ const EmployeeDashboardPage = () => {
         </button>
       </div>
 
-      <div class="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table class="min-w-full text-sm">
           <thead class="bg-slate-50">
             <tr>
@@ -310,12 +310,12 @@ const EmployeeDashboardPage = () => {
                     <div class="text-slate-900">{r.phone}</div>
                     <div class="text-xs text-slate-500">{r.email}</div>
                   </td>
-                  <td class="px-4 py-3">
+                  <td class="whitespace-nowrap px-4 py-3">
                     <div class="text-slate-700">
-                      {new Date(r.expectedArrivalTime).toLocaleString()}
+                      {new Date(r.expectedArrivalTime).toLocaleString(undefined, { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })}
                     </div>
                   </td>
-                  <td class="px-4 py-3">
+                  <td class="whitespace-nowrap px-4 py-3">
                     <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
                       {r.tableSize} people
                     </span>
@@ -323,13 +323,13 @@ const EmployeeDashboardPage = () => {
                   <td class="px-4 py-3">
                     <StatusBadge status={r.status} />
                   </td>
-                  <td class="px-4 py-3">
-                    <div class="flex flex-wrap gap-2">
+                  <td class="whitespace-nowrap px-4 py-3">
+                    <div class="flex gap-2">
                       <button
                         disabled={
                           updatingId() === r.id || r.status === "APPROVED"
                         }
-                        class="inline-flex items-center justify-center rounded-full bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-40"
+                        class="btn-action approve"
                         onClick={() => updateStatus(r.id, "APPROVED")}
                         title={
                           r.status === "APPROVED"
@@ -343,7 +343,7 @@ const EmployeeDashboardPage = () => {
                         disabled={
                           updatingId() === r.id || r.status === "CANCELLED"
                         }
-                        class="inline-flex items-center justify-center rounded-full bg-red-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-40"
+                        class="btn-action cancel"
                         onClick={() => updateStatus(r.id, "CANCELLED")}
                         title={
                           r.status === "CANCELLED"
@@ -357,7 +357,7 @@ const EmployeeDashboardPage = () => {
                         disabled={
                           updatingId() === r.id || r.status === "COMPLETED"
                         }
-                        class="inline-flex items-center justify-center rounded-full bg-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-40"
+                        class="btn-action complete"
                         onClick={() => updateStatus(r.id, "COMPLETED")}
                         title={
                           r.status === "COMPLETED"

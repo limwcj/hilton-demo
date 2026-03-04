@@ -530,7 +530,7 @@ const GuestReservationPage = () => {
       <Show when={recentEvents().length > 0}>
         <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <h3 class="text-sm font-semibold text-slate-700 mb-2">
-            Recent Activity (via RxJS stream)
+            Recent Activity
           </h3>
           <ul class="space-y-1">
             {recentEvents().map((evt) => (

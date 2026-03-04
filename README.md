@@ -81,43 +81,74 @@ hilton/
 
 ---
 
-### Running the App
+### Quick Start (one command)
 
 **Prerequisites:** Node.js 20+, pnpm, Docker
+
+```bash
+./start.sh
+```
+
+This single script will:
+
+1. Start MongoDB in Docker (with replica set)
+2. Initialize the replica set (idempotent, safe to re-run)
+3. Install backend & frontend dependencies
+4. Generate the Prisma client
+5. Launch both the backend and frontend dev servers
+
+Once started:
+
+| Service | URL |
+|---------|-----|
+| Frontend SPA | http://localhost:4173 |
+| REST Auth | http://localhost:3000/auth/login |
+| GraphQL Playground | http://localhost:3000/graphql |
+
+Press `Ctrl+C` to stop all services gracefully.
+
+---
+
+### Running Services Individually
+
+You can also start each part separately using the per-project scripts:
 
 #### 1. Start MongoDB
 
 ```bash
 docker compose up -d mongo
-```
-
-Initialize replica set (first time only):
-
-```bash
-docker exec -it mongofordemo mongosh --eval 'rs.initiate()'
+docker exec -it mongofordemo mongosh --eval 'rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "localhost:27017" }] })'   # first time only
 ```
 
 #### 2. Backend
 
 ```bash
+./backend/setup.sh
+```
+
+Or manually:
+
+```bash
 cd backend
+cp .env.example .env   # first time only
 pnpm install
 npx prisma generate
 pnpm start:dev
 ```
 
-- REST auth: `POST http://localhost:3000/auth/login`
-- GraphQL Playground: `http://localhost:3000/graphql`
-
 #### 3. Frontend
+
+```bash
+./frontend/setup.sh
+```
+
+Or manually:
 
 ```bash
 cd frontend
 pnpm install
 pnpm dev
 ```
-
-SPA URL: `http://localhost:4173`
 
 #### Full Docker (all services)
 

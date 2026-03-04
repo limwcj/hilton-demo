@@ -152,6 +152,58 @@ button.outline:hover {
   background: #fef2f2;
 }
 
+.btn-refresh {
+  margin: 0;
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: #334155;
+  color: white;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-refresh:hover {
+  background: #1e293b;
+}
+
+.btn-action {
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.btn-action.approve {
+  background: #059669;
+}
+
+.btn-action.approve:hover {
+  background: #047857;
+}
+
+.btn-action.cancel {
+  background: #dc2626;
+}
+
+.btn-action.cancel:hover {
+  background: #b91c1c;
+}
+
+.btn-action.complete {
+  background: #0891b2;
+}
+
+.btn-action.complete:hover {
+  background: #0e7490;
+}
+
 .card {
   margin-top: 1rem;
   background: white;
